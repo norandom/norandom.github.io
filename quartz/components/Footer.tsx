@@ -12,9 +12,9 @@ export default ((opts?: Options) => {
     return (
       <footer class={`${displayClass ?? ""}`}>
         <p>
-          <a href="https://www.because-security.com/contact">Because Security</a> - {year}. Copyright by the authors.
+          <a href="https://www.because-security.com/contact">📞 Because Security</a> - {year}. Copyright by the authors.
         </p>
-        <p>This is a personal use archive with bookmarks.</p>
+        <p>This is a personal-use archive with bookmarks to aid research and development with citications and sources.</p>
       </footer>
     )
   }
