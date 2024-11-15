@@ -1,11 +1,11 @@
 import { QuartzComponentProps } from "./types";
 
-const ObsidianPropertyTableComponent = (props: QuartzComponentProps) => {
+const ObsidianPropertyTableComponent = (props: QuartzComponentProps): string => {
   const { fileData } = props;
   const { frontmatter } = fileData || {};
 
   if (!frontmatter || Object.keys(frontmatter).length === 0) {
-    return null;
+    return "";
   }
 
   const displayValue = (key: string, value: any): string => {
@@ -13,7 +13,7 @@ const ObsidianPropertyTableComponent = (props: QuartzComponentProps) => {
       return "-";
     }
 
-    // Special handling for "source" to show as a link with truncation if needed
+    // Always render "source" as a link, truncating if necessary
     if (key === "source" && typeof value === "string") {
       const shortened = value.length > 15 ? `${value.slice(0, 15)}...` : value;
       return `<a href="${encodeURI(value)}" target="_blank" rel="noopener noreferrer" class="external-link">${shortened}</a>`;
@@ -22,7 +22,7 @@ const ObsidianPropertyTableComponent = (props: QuartzComponentProps) => {
     return String(value);
   };
 
-  // Generate the HTML content directly
+  // Generate the HTML content directly as a string
   const content = `
     <div class="properties-table">
       <h3 class="properties-heading">Properties</h3>
@@ -145,10 +145,7 @@ const ObsidianPropertyTableComponent = (props: QuartzComponentProps) => {
     </div>
   `;
 
-  // Creating a container to return as an HTML element
-  const container = document.createElement("div");
-  container.innerHTML = content;
-  return container;
+  return content;
 };
 
 export default ObsidianPropertyTableComponent;
