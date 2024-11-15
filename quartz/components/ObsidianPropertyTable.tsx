@@ -16,14 +16,15 @@ const ObsidianPropertyTableComponent = (props: QuartzComponentProps) => {
     // Special handling for "source" to show as a link with truncation if needed
     if (key === "source" && typeof value === "string") {
       const shortened = value.length > 15 ? `${value.slice(0, 15)}...` : value;
-      return `<a href="${value}" target="_blank" rel="noopener noreferrer" class="external-link">${shortened}</a>`;
+      return `<a href="${encodeURI(value)}" target="_blank" rel="noopener noreferrer" class="external-link">${shortened}</a>`;
     }
 
     return String(value);
   };
 
-  return (
-    `<div class="properties-table">
+  // Generate the HTML content directly
+  const content = `
+    <div class="properties-table">
       <h3 class="properties-heading">Properties</h3>
       <div class="properties-container">
         ${Object.entries({
@@ -141,8 +142,13 @@ const ObsidianPropertyTableComponent = (props: QuartzComponentProps) => {
           }
         }
       </style>
-    </div>`
-  );
+    </div>
+  `;
+
+  // Creating a container to return as an HTML element
+  const container = document.createElement("div");
+  container.innerHTML = content;
+  return container;
 };
 
 export default ObsidianPropertyTableComponent;
