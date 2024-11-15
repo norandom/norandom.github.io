@@ -1,5 +1,6 @@
 import { QuartzConfig } from "./quartz/cfg";
 import * as Plugin from "./quartz/plugins";
+import ObsidianPropertyTableComponent from "./quartz/components/ObsidianPropertyTable"; // Importing directly in the header
 
 /**
  * Quartz 4.0 Configuration
@@ -70,12 +71,7 @@ const config: QuartzConfig = {
       Plugin.AliasRedirects(),
       Plugin.ComponentResources(),
       Plugin.ContentPage({
-        beforeBody: [
-          async () => {
-            const { ObsidianPropertyTable } = await import("./quartz/components/ObsidianPropertyTable");
-            return ObsidianPropertyTable as QuartzComponentConstructor;
-          },
-        ],
+        beforeBody: [ObsidianPropertyTableComponent], // Use the component directly
       }),
       Plugin.FolderPage(),
       Plugin.TagPage(),
