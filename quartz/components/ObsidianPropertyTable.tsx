@@ -50,33 +50,39 @@ function ObsidianPropertyTableComponent(props: QuartzComponentProps) {
     <div className="properties-table">
       <h3 className="properties-heading">Properties</h3>
       <div className="properties-container">
-        {Object.entries(frontmatter)
-          .filter(([_, value]) => value !== null && value !== undefined)
-          .map(([key, value]) => (
-            <div key={key} className="property-row">
-              <div className="property-key">
-                <span className="property-icon">
-                  {key === "tags"
-                    ? "🏷️"
-                    : key === "created"
-                    ? "📅"
-                    : key === "title"
-                    ? "📝"
-                    : key === "source"
-                    ? "🔗"
-                    : key === "author"
-                    ? "👤"
-                    : key === "published"
-                    ? "📢"
-                    : key === "description"
-                    ? "📋"
-                    : "≡"}
-                </span>
-                {key}
-              </div>
-              <div className="property-value">{formatValue(value)}</div>
+        {Object.entries({
+          title: frontmatter.title,
+          source: frontmatter.source,
+          author: frontmatter.author,
+          published: frontmatter.published,
+          created: frontmatter.created,
+          description: frontmatter.description,
+          tags: frontmatter.tags,
+        }).map(([key, value]) => (
+          <div key={key} className="property-row">
+            <div className="property-key">
+              <span className="property-icon">
+                {key === "tags"
+                  ? "🏷️"
+                  : key === "created"
+                  ? "📅"
+                  : key === "title"
+                  ? "📝"
+                  : key === "source"
+                  ? "🔗"
+                  : key === "author"
+                  ? "👤"
+                  : key === "published"
+                  ? "📢"
+                  : key === "description"
+                  ? "📋"
+                  : "≡"}
+              </span>
+              {key}
             </div>
-          ))}
+            <div className="property-value">{formatValue(value)}</div>
+          </div>
+        ))}
       </div>
     </div>
   );
