@@ -102,6 +102,8 @@ const ObsidianPropertyTableComponent = (props: QuartzComponentProps) => {
         .external-link {
           color: var(--secondary);
           text-decoration: none;
+          word-break: break-word;
+          overflow-wrap: break-word;
         }
 
         .external-link:hover {
