@@ -1,7 +1,7 @@
 import { QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { PageLayout } from "../cfg"
 
-function ObsidianPropertyTable(props: QuartzComponentProps) {
+function ObsidianPropertyTableComponent(props: QuartzComponentProps) {
   const { fileData } = props
   const { frontmatter } = fileData
 
@@ -46,9 +46,9 @@ function ObsidianPropertyTable(props: QuartzComponentProps) {
   )
 }
 
-export default (() => {
+export const ObsidianPropertyTable: QuartzComponentConstructor = () => {
   return {
-    Component: ObsidianPropertyTable,
+    Component: ObsidianPropertyTableComponent,
     css: `
       .properties-table {
         margin: 1rem 0;
@@ -109,4 +109,4 @@ export default (() => {
       }
     `
   }
-}) satisfies QuartzComponentConstructor
+}
