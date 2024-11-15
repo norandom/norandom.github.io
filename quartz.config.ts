@@ -1,12 +1,6 @@
 import { QuartzConfig } from "./quartz/cfg"
 import * as Plugin from "./quartz/plugins"
-import { ObsidianPropertyTable } from "./quartz/components/ObsidianPropertyTable"
 
-/**
- * Quartz 4.0 Configuration
- *
- * See https://quartz.jzhao.xyz/configuration for more information.
- */
 const config: QuartzConfig = {
   configuration: {
     pageTitle: "📁 Norandom Archive 1.0",
@@ -80,7 +74,10 @@ const config: QuartzConfig = {
       Plugin.AliasRedirects(),
       Plugin.ComponentResources(),
       Plugin.ContentPage({
-        beforeBody: [ObsidianPropertyTable],
+        beforeBody: [async () => {
+          const component = await import("./quartz/components/ObsidianPropertyTable")
+          return component.ObsidianPropertyTable
+        }],
       }),
       Plugin.FolderPage(),
       Plugin.TagPage(),
