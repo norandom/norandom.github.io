@@ -1,23 +1,21 @@
-import { QuartzConfig } from "./quartz/cfg"
-import * as Plugin from "./quartz/plugins"
+import { QuartzConfig } from "./quartz/cfg";
+import * as Plugin from "./quartz/plugins";
 
+/**
+ * Quartz 4.0 Configuration
+ */
 const config: QuartzConfig = {
   configuration: {
     pageTitle: "📁 Norandom Archive 1.0",
-    pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,
     analytics: {
       provider: "null",
     },
-    locale: "en-US",
     baseUrl: "https://norandom.github.io",
     ignorePatterns: ["private", "templates", ".obsidian"],
     defaultDateType: "created",
-    generateSocialImages: false,
     theme: {
-      fontOrigin: "googleFonts",
-      cdnCaching: true,
       typography: {
         header: "Assistant",
         body: "Source Sans Pro",
@@ -33,7 +31,6 @@ const config: QuartzConfig = {
           secondary: "#284b63",
           tertiary: "#84a59d",
           highlight: "rgba(143, 159, 169, 0.15)",
-          textHighlight: "#fff23688",
         },
         darkMode: {
           light: "#161618",
@@ -44,7 +41,6 @@ const config: QuartzConfig = {
           secondary: "#7b97aa",
           tertiary: "#84a59d",
           highlight: "rgba(143, 159, 169, 0.15)",
-          textHighlight: "#b3aa0288",
         },
       },
     },
@@ -55,6 +51,7 @@ const config: QuartzConfig = {
       Plugin.CreatedModifiedDate({
         priority: ["frontmatter", "filesystem"],
       }),
+      Plugin.Latex({ renderEngine: "katex" }),
       Plugin.SyntaxHighlighting({
         theme: {
           light: "github-light",
@@ -67,17 +64,18 @@ const config: QuartzConfig = {
       Plugin.TableOfContents(),
       Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
       Plugin.Description(),
-      Plugin.Latex({ renderEngine: "katex" }),
     ],
     filters: [Plugin.RemoveDrafts()],
     emitters: [
       Plugin.AliasRedirects(),
       Plugin.ComponentResources(),
       Plugin.ContentPage({
-        beforeBody: [async () => {
-          const component = await import("./quartz/components/ObsidianPropertyTable")
-          return component.ObsidianPropertyTable
-        }],
+        beforeBody: [
+          async () => {
+            const { ObsidianPropertyTable } = await import("./quartz/components/ObsidianPropertyTable");
+            return ObsidianPropertyTable as QuartzComponentConstructor;
+          },
+        ],
       }),
       Plugin.FolderPage(),
       Plugin.TagPage(),
@@ -90,6 +88,6 @@ const config: QuartzConfig = {
       Plugin.NotFoundPage(),
     ],
   },
-}
+};
 
-export default config
+export default config;
