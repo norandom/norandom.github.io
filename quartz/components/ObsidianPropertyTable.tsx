@@ -1,31 +1,22 @@
 import { QuartzComponentProps } from "./types";
 
-const ObsidianPropertyTableComponent = (props: QuartzComponentProps): string => {
+const ObsidianPropertyTableComponent = (props: QuartzComponentProps) => {
   const { fileData } = props;
   const { frontmatter } = fileData || {};
 
   if (!frontmatter || Object.keys(frontmatter).length === 0) {
-    return "";
+    return null;
   }
 
-  const displayValue = (key: string, value: any): string => {
-    if (value === undefined || value === null || value === "") {
-      return "-";
-    }
-
-    // Render "source" as a shortened link using CSS truncation
-    if (key === "source" && typeof value === "string") {
-      return `<a href="${value}" target="_blank" rel="noopener noreferrer" class="external-link">${value}</a>`;
-    }
-
-    return String(value);
+  const displayValue = (value: any): string => {
+    return value === undefined || value === null || value === "" ? "-" : String(value);
   };
 
   return (
-    `<div class="properties-table">
-      <h3 class="properties-heading">Properties</h3>
-      <div class="properties-container">
-        ${Object.entries({
+    <div className="properties-table">
+      <h3 className="properties-heading">Properties</h3>
+      <div className="properties-container">
+        {Object.entries({
           title: frontmatter.title,
           source: frontmatter.source,
           author: frontmatter.author,
@@ -33,11 +24,11 @@ const ObsidianPropertyTableComponent = (props: QuartzComponentProps): string => 
           created: frontmatter.created,
           description: frontmatter.description,
           tags: frontmatter.tags,
-        }).map(([key, value]) => `
-          <div class="property-row">
-            <div class="property-key">
-              <span class="property-icon">
-                ${key === "tags"
+        }).map(([key, value]) => (
+          <div key={key} className="property-row">
+            <div className="property-key">
+              <span className="property-icon">
+                {key === "tags"
                   ? "🏷️"
                   : key === "created"
                   ? "📅"
@@ -53,13 +44,13 @@ const ObsidianPropertyTableComponent = (props: QuartzComponentProps): string => 
                   ? "📋"
                   : "≡"}
               </span>
-              ${key}
+              {key}
             </div>
-            <div class="property-value">${displayValue(key, value)}</div>
+            <div className="property-value">{displayValue(value)}</div>
           </div>
-        `).join("")}
+        ))}
       </div>
-      <style>
+      <style jsx>{`
         .properties-table {
           margin: 1rem 0 2rem 0;
           padding: 1.5rem;
@@ -111,12 +102,6 @@ const ObsidianPropertyTableComponent = (props: QuartzComponentProps): string => 
         .external-link {
           color: var(--secondary);
           text-decoration: none;
-          display: inline-block;
-          max-width: 15ch; /* Show only 15 characters */
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis; /* Add ellipsis (...) */
-          vertical-align: bottom;
         }
 
         .external-link:hover {
@@ -145,8 +130,8 @@ const ObsidianPropertyTableComponent = (props: QuartzComponentProps): string => 
             color: var(--secondary);
           }
         }
-      </style>
-    </div>`
+      `}</style>
+    </div>
   );
 };
 
