@@ -10,14 +10,56 @@ function ObsidianPropertyTableComponent(props: QuartzComponentProps) {
   }
 
   // Helper function to format values
-  const formatValue = (value: any): string => {
+  const formatValue = (value: any): JSX.Element | string => {
+    if (value === null || value === undefined || value === "") {
+      return "Empty"
+    }
+
     if (value instanceof Date) {
       return value.toLocaleDateString()
     }
+
     if (Array.isArray(value)) {
-      return value.join(', ')
+      return value.map((item, index) => (
+        <span key={index} className="tag-item">
+          {item}
+          {index < value.length - 1 ? ", " : ""}
+        </span>
+      ))
     }
+
+    // Check if the value is a URL
+    if (typeof value === 'string' && value.match(/^https?:\/\//)) {
+      return (
+        <a href={value} target="_blank" rel="noopener noreferrer">
+          {value} <span className="external-link-icon">↗</span>
+        </a>
+      )
+    }
+
     return String(value)
+  }
+
+  // Function to get icon for property
+  const getPropertyIcon = (key: string): string => {
+    switch (key) {
+      case 'tags':
+        return '🏷️'
+      case 'created':
+        return '📅'
+      case 'title':
+        return '📝'
+      case 'source':
+        return '🔗'
+      case 'author':
+        return '👤'
+      case 'published':
+        return '📢'
+      case 'description':
+        return '📋'
+      default:
+        return '≡'
+    }
   }
 
   return (
@@ -27,13 +69,7 @@ function ObsidianPropertyTableComponent(props: QuartzComponentProps) {
         {Object.entries(frontmatter).map(([key, value]) => (
           <div key={key} className="property-row">
             <div className="property-key">
-              {key === 'tags' ? (
-                <span className="tag-icon">🏷️</span>
-              ) : key === 'created' ? (
-                <span className="calendar-icon">📅</span>
-              ) : (
-                <span className="default-icon">≡</span>
-              )}
+              <span className="property-icon">{getPropertyIcon(key)}</span>
               {key}
             </div>
             <div className="property-value">
@@ -51,9 +87,10 @@ export const ObsidianPropertyTable: QuartzComponentConstructor = () => {
     Component: ObsidianPropertyTableComponent,
     css: `
       .properties-table {
-        margin: 1rem 0;
-        padding: 1rem;
+        margin: 1rem 0 2rem 0;
+        padding: 1.5rem;
         background: var(--bg);
+        border: 1px solid var(--lightgray);
         border-radius: 8px;
       }
 
@@ -67,13 +104,13 @@ export const ObsidianPropertyTable: QuartzComponentConstructor = () => {
       .properties-container {
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
+        gap: 0.75rem;
       }
 
       .property-row {
         display: flex;
         padding: 0.25rem 0;
-        gap: 1rem;
+        gap: 1.5rem;
         align-items: flex-start;
         line-height: 1.5;
       }
@@ -84,6 +121,12 @@ export const ObsidianPropertyTable: QuartzComponentConstructor = () => {
         display: flex;
         align-items: center;
         gap: 0.5rem;
+        font-weight: 500;
+      }
+
+      .property-icon {
+        opacity: 0.8;
+        font-size: 1.1em;
       }
 
       .property-value {
@@ -91,20 +134,41 @@ export const ObsidianPropertyTable: QuartzComponentConstructor = () => {
         color: var(--dark);
       }
 
-      .tag-icon, .calendar-icon, .default-icon {
-        opacity: 0.7;
-        width: 20px;
-        display: inline-flex;
-        justify-content: center;
+      .property-value a {
+        color: var(--secondary);
+        text-decoration: none;
+      }
+
+      .property-value a:hover {
+        text-decoration: underline;
+      }
+
+      .external-link-icon {
+        font-size: 0.8em;
+        margin-left: 0.2em;
+        opacity: 0.8;
+      }
+
+      .tag-item {
+        display: inline-block;
+        padding: 0.1em 0.4em;
+        margin: 0 0.2em;
+        background: var(--lightgray);
+        border-radius: 4px;
+        font-size: 0.9em;
       }
 
       @media (prefers-color-scheme: dark) {
         .properties-table {
-          background: var(--dark);
+          border-color: var(--darkgray);
         }
         
         .property-value {
           color: var(--light);
+        }
+
+        .property-value a {
+          color: var(--secondary);
         }
       }
     `
