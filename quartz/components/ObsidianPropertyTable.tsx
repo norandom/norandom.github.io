@@ -1,5 +1,5 @@
-import { QuartzComponentConstructor, QuartzComponentProps } from "../quartz/components/types"
-import { PageLayout } from "../quartz/cfg"
+import { QuartzComponentConstructor, QuartzComponentProps } from "./types"
+import { PageLayout } from "../cfg"
 
 function ObsidianPropertyTable(props: QuartzComponentProps) {
   const { fileData } = props

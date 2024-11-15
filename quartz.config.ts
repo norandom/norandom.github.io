@@ -1,6 +1,6 @@
 import { QuartzConfig } from "./quartz/cfg"
 import * as Plugin from "./quartz/plugins"
-import { ObsidianPropertyTable } from "./components/ObsidianPropertyTable"
+import { ObsidianPropertyTable } from "./quartz/components/ObsidianPropertyTable"
 
 /**
  * Quartz 4.0 Configuration
