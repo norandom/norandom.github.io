@@ -18,9 +18,9 @@ const config: QuartzConfig = {
     defaultDateType: "created",
     theme: {
       typography: {
-        header: "JetBrains Mono",
-        body: "JetBrains Mono",
-        code: "JetBrains Mono",
+        header: "JetBrains+Mono",
+        body: "JetBrains+Mono",
+        code: "JetBrains+Mono",
       },
       colors: {
         lightMode: {
