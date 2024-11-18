@@ -13,7 +13,7 @@ const config: QuartzConfig = {
     analytics: {
       provider: "null",
     },
-    baseUrl: "https://norandom.github.io",
+    baseUrl: "norandom.github.io",
     ignorePatterns: ["private", "templates", ".obsidian"],
     defaultDateType: "created",
     theme: {
