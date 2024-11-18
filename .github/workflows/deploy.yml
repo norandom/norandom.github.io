@@ -26,6 +26,8 @@ jobs:
           node-version: 22
       - name: Install Dependencies
         run: npm ci
+      - name: Sync Content
+        run: npx quartz sync --no-push
       - name: Build Quartz
         run: npx quartz build
       - name: Upload artifact
