@@ -6,7 +6,7 @@ on:
       - v4
  
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
  
@@ -18,24 +18,40 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Fetch all history for git info
-      - uses: actions/setup-node@v4
+          fetch-depth: 0
+          ref: v4
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 22
+          
       - name: Install Dependencies
         run: npm ci
-      - name: Debug Content
+        
+      - name: Debug Content Before
         run: |
           echo "Content directory before build:"
           ls -la content/
+          git status
+          
+      - name: Configure Git
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          
       - name: Build Quartz
-        run: npx quartz build --verbose
-      - name: Debug Build
+        run: |
+          npx quartz build --verbose
+          
+      - name: Debug Content After
         run: |
           echo "Public directory after build:"
           ls -la public/
+          
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
